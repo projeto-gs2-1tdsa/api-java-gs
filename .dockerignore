@@ -1,5 +1,14 @@
-*
+# Ignora a pasta target (exceto os artefatos de build do Quarkus)
+target/
 !target/*-runner
 !target/*-runner.jar
 !target/lib/*
 !target/quarkus-app/*
+
+# Ignora arquivos de IDE e sistema
+*.iml
+*.ipr
+*.iws
+.idea/
+.vscode/
+.DS_Store
