@@ -71,7 +71,6 @@ public class UsuarioDAO {
     // UpDate
     public String atualizarUsuario(Usuario usuario) throws SQLException, ClassNotFoundException {
         PreparedStatement stmt = null;
-
         try {
             minhaConexao = new ConexaoFactory().conexao();
 
@@ -79,13 +78,13 @@ public class UsuarioDAO {
                     "Update USUARIO set NOMEUSUARIO = ?, EMAIL = ?, SENHA = ?, IDADE = ?, ESCOLARIDADE = ?, IDESTADO = ? where IDUSUARIO = ?"
             );
 
-        stmt.setString(1, usuario.getNomeUsuario());
-        stmt.setString(2, usuario.getEmail());
-        stmt.setString(3, usuario.getSenha());
-        stmt.setInt(4, usuario.getIdade());
-        stmt.setString(5, usuario.getEscolaridade());
-        stmt.setInt(6, usuario.getEstado().getIdEstado());
-        stmt.setInt(7, usuario.getIdUsuario());
+            stmt.setString(1, usuario.getNomeUsuario());
+            stmt.setString(2, usuario.getEmail());
+            stmt.setString(3, usuario.getSenha());
+            stmt.setInt(4, usuario.getIdade());
+            stmt.setString(5, usuario.getEscolaridade());
+            stmt.setInt(6, usuario.getEstado().getIdEstado());
+            stmt.setInt(7, usuario.getIdUsuario());
 
             stmt.executeUpdate();
             return "Usuário atualizado com sucesso!";
@@ -97,28 +96,44 @@ public class UsuarioDAO {
     }
 
     // Select
-    public List<Usuario> selecionarUsuario() throws SQLException {
+    public List<Usuario> selecionarUsuario() throws SQLException, ClassNotFoundException {
         List<Usuario> listaUsuarios = new ArrayList<Usuario>();
-        PreparedStatement stmt = minhaConexao.prepareStatement
-                ("select * from USUARIO");
-        ResultSet rs = stmt.executeQuery();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
 
-        while (rs.next()) {
-            Usuario usuario = new Usuario();
-            usuario.setIdUsuario(rs.getInt(1));
-            usuario.setNomeUsuario(rs.getString(2));
-            usuario.setEmail(rs.getString(3));
-            usuario.setSenha(rs.getString(4));
-            usuario.setIdade(rs.getInt(5));
-            usuario.setEscolaridade(rs.getString(6));
+        try {
+            minhaConexao = new ConexaoFactory().conexao();
 
-            Estado estado = new Estado();
-            estado.setIdEstado(rs.getInt(7));
-            usuario.setEstado(estado);
+            stmt = minhaConexao.prepareStatement("select * from USUARIO");
+            rs = stmt.executeQuery();
 
-            listaUsuarios.add(usuario);
+            while (rs.next()) {
+                Usuario usuario = new Usuario();
+                usuario.setIdUsuario(rs.getInt(1));
+                usuario.setNomeUsuario(rs.getString(2));
+                usuario.setEmail(rs.getString(3));
+                usuario.setSenha(rs.getString(4));
+                usuario.setIdade(rs.getInt(5));
+                usuario.setEscolaridade(rs.getString(6));
+
+                Estado estado = new Estado();
+                estado.setIdEstado(rs.getInt(7));
+                usuario.setEstado(estado);
+
+                listaUsuarios.add(usuario);
+            }
+
+            return listaUsuarios;
+
+        } finally {
+            // FECHAR ResultSet
+            if (rs != null) rs.close();
+
+            // FECHAR Statement
+            if (stmt != null) stmt.close();
+
+            // FECHAR Conexão
+            if (minhaConexao != null && !minhaConexao.isClosed()) minhaConexao.close();
         }
-        return listaUsuarios;
     }
-
 }
