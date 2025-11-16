@@ -50,4 +50,11 @@ public class UsuarioResource {
         return Response.ok().build();
     }
 
+    // Select Usuario ID
+    @GET
+    @Path("/{idUsuario}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Usuario selecionarUsuarioPorIdRs(@PathParam("idUsuario") int idUsuario) throws SQLException, ClassNotFoundException {
+        return usuarioBO.selecionarUsuarioPorIdBo(idUsuario);
+    }
 }

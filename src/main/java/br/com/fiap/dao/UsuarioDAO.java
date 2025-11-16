@@ -36,7 +36,7 @@ public class UsuarioDAO {
             stmt.setString(4, usuario.getSenha());
             stmt.setInt(5, usuario.getIdade());
             stmt.setString(6, usuario.getEscolaridade());
-            stmt.setInt(7, usuario.getEstado().getIdEstado()); // FK correta
+            stmt.setInt(7, usuario.getEstado().getIdEstado()); // FK
 
             stmt.execute();
             return "Usuário cadastrado com sucesso!";
@@ -126,14 +126,47 @@ public class UsuarioDAO {
             return listaUsuarios;
 
         } finally {
-            // FECHAR ResultSet
-            if (rs != null) rs.close();
+            if (rs != null) rs.close();// fecha ResultSet
+            if (stmt != null) stmt.close();// fecha Statement
+            if (minhaConexao != null && !minhaConexao.isClosed()) minhaConexao.close(); // fecha Conexão
+        }
+    }
 
-            // FECHAR Statement
-            if (stmt != null) stmt.close();
+    // Select Usuario ID
+    public Usuario selecionarUsuarioPorId(int idUsuario) throws SQLException, ClassNotFoundException {
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        Usuario usuario = null;
 
-            // FECHAR Conexão
-            if (minhaConexao != null && !minhaConexao.isClosed()) minhaConexao.close();
+        try {
+            minhaConexao = new ConexaoFactory().conexao();
+
+            stmt = minhaConexao.prepareStatement("select * from USUARIO where IDUSUARIO = ?");
+
+            stmt.setInt(1, idUsuario);
+            rs = stmt.executeQuery();
+
+            if(rs.next()) {
+                usuario = new Usuario();
+                usuario.setIdUsuario(rs.getInt(1));
+                usuario.setNomeUsuario(rs.getString(2));
+                usuario.setEmail(rs.getString(3));
+                usuario.setSenha(rs.getString(4));
+                usuario.setIdade(rs.getInt(5));
+                usuario.setEscolaridade(rs.getString(6));
+
+                Estado estado = new Estado();
+                estado.setIdEstado(rs.getInt(7));
+                usuario.setEstado(estado);
+
+            }
+
+            return usuario;
+
+        } finally {
+            if (rs != null) rs.close();// fecha ResultSet
+            if (stmt != null) stmt.close();// fecha Statement
+            if (minhaConexao != null && !minhaConexao.isClosed()) minhaConexao.close(); // fecha Conexão
         }
     }
 }

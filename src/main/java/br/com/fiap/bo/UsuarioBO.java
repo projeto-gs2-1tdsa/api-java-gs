@@ -20,7 +20,7 @@ public class UsuarioBO {
     // Inserir
     public void inserirUsuarioBo(Usuario usuario) throws ClassNotFoundException, SQLException {
         UsuarioDAO usuarioDao = new UsuarioDAO();
-
+        normalizarUsuario(usuario);
         usuarioDao.inserirUsuario(usuario);
     }
 
@@ -38,5 +38,17 @@ public class UsuarioBO {
         usuarioDao.deletarUsuario(idUsuario);
     }
 
+    // Select Usuario ID
+    public Usuario selecionarUsuarioPorIdBo(int idUsuario) throws SQLException, ClassNotFoundException {
+        usuarioDAO = new UsuarioDAO();
+        return usuarioDAO.selecionarUsuarioPorId(idUsuario);
+    }
 
+    // -------------------------
+    // Metodos regras de negocio
+
+    private void normalizarUsuario(Usuario usuario) {
+        usuario.setNomeUsuario(usuario.getNomeUsuario().trim());
+        usuario.setEmail(usuario.getEmail().toLowerCase());
+    }
 }
