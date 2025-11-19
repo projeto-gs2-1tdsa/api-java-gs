@@ -20,13 +20,21 @@ public class UsuarioBO {
     // Inserir
     public void inserirUsuarioBo(Usuario usuario) throws ClassNotFoundException, SQLException {
         UsuarioDAO usuarioDao = new UsuarioDAO();
-        normalizarUsuario(usuario);
+
+        if (emailExiste(usuario.getEmail())) {
+            throw new RuntimeException("Email já cadastrado!");
+        }
+
         usuarioDao.inserirUsuario(usuario);
     }
 
     // Atualizar
     public void atualizarUsuariorBo(Usuario usuario) throws ClassNotFoundException, SQLException {
         UsuarioDAO usuarioDao = new UsuarioDAO();
+
+        if (emailExiste(usuario.getEmail())) {
+            throw new RuntimeException("Email já cadastrado!");
+        }
 
         usuarioDao.atualizarUsuario(usuario);
     }
@@ -44,11 +52,32 @@ public class UsuarioBO {
         return usuarioDAO.selecionarUsuarioPorId(idUsuario);
     }
 
-    // -------------------------
-    // Metodos regras de negocio
 
-    private void normalizarUsuario(Usuario usuario) {
-        usuario.setNomeUsuario(usuario.getNomeUsuario().trim());
-        usuario.setEmail(usuario.getEmail().toLowerCase());
+
+    // ----- Regras de negocio ------
+
+
+    // login
+    public boolean verificarLogin(String email, String senha) throws SQLException, ClassNotFoundException {
+        UsuarioDAO usuarioDao = new UsuarioDAO();
+
+        Usuario usuario = usuarioDao.buscarPorEmail(email);
+
+        if (usuario == null) {
+            return false;
+        }
+
+        return usuario.getSenha().equals(senha);
     }
+
+
+    // verifica se email já foi cadastrado
+    public boolean emailExiste(String email) throws SQLException, ClassNotFoundException {
+        UsuarioDAO usuarioDao = new UsuarioDAO();
+
+        Usuario usuario = usuarioDao.buscarPorEmail(email);
+
+        return usuario != null;
+    }
+
 }

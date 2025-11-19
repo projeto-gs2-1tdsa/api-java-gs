@@ -136,7 +136,6 @@ public class UsuarioDAO {
     public Usuario selecionarUsuarioPorId(int idUsuario) throws SQLException, ClassNotFoundException {
         PreparedStatement stmt = null;
         ResultSet rs = null;
-        Usuario usuario = null;
 
         try {
             minhaConexao = new ConexaoFactory().conexao();
@@ -146,8 +145,8 @@ public class UsuarioDAO {
             stmt.setInt(1, idUsuario);
             rs = stmt.executeQuery();
 
-            if(rs.next()) {
-                usuario = new Usuario();
+            if (rs.next()) {
+                Usuario usuario = new Usuario();
                 usuario.setIdUsuario(rs.getInt(1));
                 usuario.setNomeUsuario(rs.getString(2));
                 usuario.setEmail(rs.getString(3));
@@ -159,9 +158,10 @@ public class UsuarioDAO {
                 estado.setIdEstado(rs.getInt(7));
                 usuario.setEstado(estado);
 
+                return usuario;
             }
 
-            return usuario;
+            return null;
 
         } finally {
             if (rs != null) rs.close();// fecha ResultSet
@@ -169,4 +169,44 @@ public class UsuarioDAO {
             if (minhaConexao != null && !minhaConexao.isClosed()) minhaConexao.close(); // fecha Conexão
         }
     }
+
+
+    // Buscar pelo email -> login
+    public Usuario buscarPorEmail(String email) throws SQLException, ClassNotFoundException {
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            minhaConexao = new ConexaoFactory().conexao();
+
+            stmt = minhaConexao.prepareStatement("select * from USUARIO where EMAIL = ?");
+            stmt.setString(1, email);
+
+            rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                Usuario usuario = new Usuario();
+                usuario.setIdUsuario(rs.getInt(1));
+                usuario.setNomeUsuario(rs.getString(2));
+                usuario.setEmail(rs.getString(3));
+                usuario.setSenha(rs.getString(4));
+                usuario.setIdade(rs.getInt(5));
+                usuario.setEscolaridade(rs.getString(6));
+
+                Estado estado = new Estado();
+                estado.setIdEstado(rs.getInt(7));
+                usuario.setEstado(estado);
+
+                return usuario;
+            }
+
+            return null; // se não achou
+
+        } finally {
+            if (rs != null) rs.close(); // fecha ResultSet
+            if (stmt != null) stmt.close(); // fecha Statement
+            if (minhaConexao != null && !minhaConexao.isClosed()) minhaConexao.close(); // fecha Conexão
+        }
+    }
+
 }

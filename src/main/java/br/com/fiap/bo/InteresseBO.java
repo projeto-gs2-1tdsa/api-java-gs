@@ -21,8 +21,6 @@ public class InteresseBO {
     public void inserirInteresseBo(Interesse interesse) throws ClassNotFoundException, SQLException {
         InteresseDAO interesseDao = new InteresseDAO();
 
-
-
         interesseDao.inserirInteresse(interesse);
     }
 

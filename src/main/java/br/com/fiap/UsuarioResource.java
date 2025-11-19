@@ -43,7 +43,7 @@ public class UsuarioResource {
 
     // Deletar
     @DELETE
-    @Path("{idUsuario}")
+    @Path("/id/{idUsuario}")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response deletarUsuarioRs(@PathParam("idUsuario") int idUsuario) throws SQLException, ClassNotFoundException {
         usuarioBO.deletarUsuarioBo(idUsuario);
@@ -52,9 +52,31 @@ public class UsuarioResource {
 
     // Select Usuario ID
     @GET
-    @Path("/{idUsuario}")
+    @Path("/id/{idUsuario}")
     @Produces(MediaType.APPLICATION_JSON)
     public Usuario selecionarUsuarioPorIdRs(@PathParam("idUsuario") int idUsuario) throws SQLException, ClassNotFoundException {
         return usuarioBO.selecionarUsuarioPorIdBo(idUsuario);
     }
+
+    // Login
+    @GET
+    @Path("/login/{email}/{senha}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response loginUsuario(
+            @PathParam("email") String email, @PathParam("senha") String senha) throws SQLException, ClassNotFoundException {
+
+        boolean ok = usuarioBO.verificarLogin(email, senha);
+
+        if (ok) {
+            return Response.ok("Login realizado com sucesso").build();
+        } else {
+            return Response.status(Response.Status.UNAUTHORIZED)
+                    .entity("Email ou senha incorretos")
+                    .build();
+        }
+    }
+
+
+
+
 }
