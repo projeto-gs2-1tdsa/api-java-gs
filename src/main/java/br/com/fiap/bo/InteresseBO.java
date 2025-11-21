@@ -1,7 +1,9 @@
 package br.com.fiap.bo;
 
 import br.com.fiap.beans.Interesse;
+import br.com.fiap.beans.Usuario;
 import br.com.fiap.dao.InteresseDAO;
+import br.com.fiap.dao.UsuarioDAO;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -37,4 +39,33 @@ public class InteresseBO {
 
         interesseDao.deletarInteresse(idInteresse);
     }
+
+
+// ----- Regras de negocio ------
+
+
+    // limite de interesses por usuário
+
+    public void verificarLimiteInteresses(int idUsuario) throws SQLException, ClassNotFoundException {
+        int total = interesseDAO.contarInteressesPorUsuario(idUsuario);
+
+        // Se tiver 3 buga
+        if (total >= 3) {
+            throw new RuntimeException("Limite de interesses atingido (máximo: 3).");
+        }
+    }
+
+
+    // não permite interesse repetido para o mesmo usuário
+
+    public void verificarInteresseDuplicado(int idUsuario, String areaDesejada) throws SQLException, ClassNotFoundException {
+        InteresseDAO interesseDao = new InteresseDAO();
+
+        Interesse interesse = interesseDao.buscarInteressePorNome(idUsuario, areaDesejada);
+
+        if (interesse != null) {
+            throw new RuntimeException("Este interesse já está cadastrado para este usuário.");
+        }
+    }
+
 }

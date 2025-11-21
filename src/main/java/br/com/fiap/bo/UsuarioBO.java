@@ -53,7 +53,6 @@ public class UsuarioBO {
     }
 
 
-
     // ----- Regras de negocio ------
 
 
