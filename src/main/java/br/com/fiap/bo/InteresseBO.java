@@ -45,7 +45,6 @@ public class InteresseBO {
 
 
     // limite de interesses por usuário
-
     public void verificarLimiteInteresses(int idUsuario) throws SQLException, ClassNotFoundException {
         int total = interesseDAO.contarInteressesPorUsuario(idUsuario);
 
@@ -57,7 +56,6 @@ public class InteresseBO {
 
 
     // não permite interesse repetido para o mesmo usuário
-
     public void verificarInteresseDuplicado(int idUsuario, String areaDesejada) throws SQLException, ClassNotFoundException {
         InteresseDAO interesseDao = new InteresseDAO();
 

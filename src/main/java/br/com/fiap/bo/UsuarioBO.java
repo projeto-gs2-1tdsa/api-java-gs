@@ -32,7 +32,9 @@ public class UsuarioBO {
     public void atualizarUsuariorBo(Usuario usuario) throws ClassNotFoundException, SQLException {
         UsuarioDAO usuarioDao = new UsuarioDAO();
 
-        if (emailExiste(usuario.getEmail())) {
+        Usuario usuarioExistente = usuarioDao.buscarPorEmail(usuario.getEmail());
+
+        if (usuarioExistente != null && usuarioExistente.getIdUsuario() != usuario.getIdUsuario()) {
             throw new RuntimeException("Email já cadastrado!");
         }
 
