@@ -5,23 +5,21 @@ public class Usuario {
     private String nomeUsuario;
     private String email;
     private String senha;
-    private int idade;
-    private String escolaridade; //médio, superior, técnico
     private Estado estado;
     private String chave;
+    private String telefone;
 
     public Usuario() {
     }
 
-    public Usuario(int idUsuario, String nomeUsuario, String email, String senha, int idade, String escolaridade, Estado estado, String chave) {
+    public Usuario(int idUsuario, String nomeUsuario, String email, String senha, Estado estado, String chave, String telefone) {
         this.idUsuario = idUsuario;
         this.nomeUsuario = nomeUsuario;
         this.email = email;
         this.senha = senha;
-        this.idade = idade;
-        this.escolaridade = escolaridade;
         this.estado = estado;
         this.chave = chave;
+        this.telefone = telefone;
     }
 
     public int getIdUsuario() {
@@ -56,22 +54,6 @@ public class Usuario {
         this.senha = senha;
     }
 
-    public int getIdade() {
-        return idade;
-    }
-
-    public void setIdade(int idade) {
-        this.idade = idade;
-    }
-
-    public String getEscolaridade() {
-        return escolaridade;
-    }
-
-    public void setEscolaridade(String escolaridade) {
-        this.escolaridade = escolaridade;
-    }
-
     public Estado getEstado() {
         return estado;
     }
@@ -86,5 +68,13 @@ public class Usuario {
 
     public void setChave(String chave) {
         this.chave = chave;
+    }
+
+    public String getTelefone() {
+        return telefone;
+    }
+
+    public void setTelefone(String telefone) {
+        this.telefone = telefone;
     }
 }
