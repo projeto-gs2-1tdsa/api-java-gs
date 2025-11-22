@@ -175,7 +175,7 @@ public class InteresseDAO {
                 usuario.setIdUsuario(rs.getInt(2));
                 interesse.setUsuario(usuario);
 
-                interesse.setIdInteresse(rs.getInt(3));
+                interesse.setAreaDesejada(rs.getString(3));
 
                 return interesse;
             }

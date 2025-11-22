@@ -8,11 +8,12 @@ public class Usuario {
     private int idade;
     private String escolaridade; //médio, superior, técnico
     private Estado estado;
+    private String chave;
 
     public Usuario() {
     }
 
-    public Usuario(int idUsuario, String nomeUsuario, String email, String senha, int idade, String escolaridade, Estado estado) {
+    public Usuario(int idUsuario, String nomeUsuario, String email, String senha, int idade, String escolaridade, Estado estado, String chave) {
         this.idUsuario = idUsuario;
         this.nomeUsuario = nomeUsuario;
         this.email = email;
@@ -20,6 +21,7 @@ public class Usuario {
         this.idade = idade;
         this.escolaridade = escolaridade;
         this.estado = estado;
+        this.chave = chave;
     }
 
     public int getIdUsuario() {
@@ -76,5 +78,13 @@ public class Usuario {
 
     public void setEstado(Estado estado) {
         this.estado = estado;
+    }
+
+    public String getChave() {
+        return chave;
+    }
+
+    public void setChave(String chave) {
+        this.chave = chave;
     }
 }

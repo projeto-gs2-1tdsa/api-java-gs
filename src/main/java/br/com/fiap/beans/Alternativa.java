@@ -2,7 +2,6 @@ package br.com.fiap.beans;
 
 
 public class Alternativa {
-
     private int idAlternativa;
     private Pergunta pergunta;
     private String descricao;

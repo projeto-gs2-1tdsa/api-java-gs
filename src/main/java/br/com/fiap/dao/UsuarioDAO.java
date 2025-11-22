@@ -28,7 +28,7 @@ public class UsuarioDAO {
             // abre a conexao dentro do metodo
             minhaConexao = new ConexaoFactory().conexao();
             stmt = minhaConexao.prepareStatement
-                    ("Insert into USUARIO values (?, ?, ?, ?, ?, ?, ?)");
+                    ("Insert into USUARIO values (?, ?, ?, ?, ?, ?, ?, ?)");
 
             stmt.setInt(1, usuario.getIdUsuario());
             stmt.setString(2, usuario.getNomeUsuario());
@@ -37,6 +37,7 @@ public class UsuarioDAO {
             stmt.setInt(5, usuario.getIdade());
             stmt.setString(6, usuario.getEscolaridade());
             stmt.setInt(7, usuario.getEstado().getIdEstado()); // FK
+            stmt.setString(8, usuario.getChave());
 
             stmt.execute();
             return "Usuário cadastrado com sucesso!";
@@ -75,7 +76,7 @@ public class UsuarioDAO {
             minhaConexao = new ConexaoFactory().conexao();
 
             stmt = minhaConexao.prepareStatement(
-                    "Update USUARIO set NOMEUSUARIO = ?, EMAIL = ?, SENHA = ?, IDADE = ?, ESCOLARIDADE = ?, IDESTADO = ? where IDUSUARIO = ?"
+                    "Update USUARIO set NOMEUSUARIO = ?, EMAIL = ?, SENHA = ?, IDADE = ?, ESCOLARIDADE = ?, IDESTADO = ?, CHAVE = ? where IDUSUARIO = ?"
             );
 
             stmt.setString(1, usuario.getNomeUsuario());
@@ -84,7 +85,8 @@ public class UsuarioDAO {
             stmt.setInt(4, usuario.getIdade());
             stmt.setString(5, usuario.getEscolaridade());
             stmt.setInt(6, usuario.getEstado().getIdEstado());
-            stmt.setInt(7, usuario.getIdUsuario());
+            stmt.setString(7, usuario.getChave());
+            stmt.setInt(8, usuario.getIdUsuario());
 
             stmt.executeUpdate();
             return "Usuário atualizado com sucesso!";
@@ -119,6 +121,8 @@ public class UsuarioDAO {
                 Estado estado = new Estado();
                 estado.setIdEstado(rs.getInt(7));
                 usuario.setEstado(estado);
+
+                usuario.setChave(rs.getString(8));
 
                 listaUsuarios.add(usuario);
             }
@@ -158,6 +162,8 @@ public class UsuarioDAO {
                 estado.setIdEstado(rs.getInt(7));
                 usuario.setEstado(estado);
 
+                usuario.setChave(rs.getString(8));
+
                 return usuario;
             }
 
@@ -196,6 +202,8 @@ public class UsuarioDAO {
                 Estado estado = new Estado();
                 estado.setIdEstado(rs.getInt(7));
                 usuario.setEstado(estado);
+
+                usuario.setChave(rs.getString(8));
 
                 return usuario;
             }

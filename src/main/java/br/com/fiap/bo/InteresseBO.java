@@ -1,9 +1,7 @@
 package br.com.fiap.bo;
 
 import br.com.fiap.beans.Interesse;
-import br.com.fiap.beans.Usuario;
 import br.com.fiap.dao.InteresseDAO;
-import br.com.fiap.dao.UsuarioDAO;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -22,6 +20,9 @@ public class InteresseBO {
     // Inserir
     public void inserirInteresseBo(Interesse interesse) throws ClassNotFoundException, SQLException {
         InteresseDAO interesseDao = new InteresseDAO();
+
+        verificarLimiteInteresses(interesse.getUsuario().getIdUsuario());
+        verificarInteresseDuplicado(interesse.getUsuario().getIdUsuario(), interesse.getAreaDesejada());
 
         interesseDao.inserirInteresse(interesse);
     }
@@ -46,7 +47,8 @@ public class InteresseBO {
 
     // limite de interesses por usuário
     public void verificarLimiteInteresses(int idUsuario) throws SQLException, ClassNotFoundException {
-        int total = interesseDAO.contarInteressesPorUsuario(idUsuario);
+        InteresseDAO interesseDao = new InteresseDAO();
+        int total = interesseDao.contarInteressesPorUsuario(idUsuario);
 
         // Se tiver 3 buga
         if (total >= 3) {
