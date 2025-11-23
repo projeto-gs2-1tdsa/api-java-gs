@@ -50,9 +50,9 @@ public class InteresseBO {
         InteresseDAO interesseDao = new InteresseDAO();
         int total = interesseDao.contarInteressesPorUsuario(idUsuario);
 
-        // Se tiver 3 buga
-        if (total >= 3) {
-            throw new RuntimeException("Limite de interesses atingido (máximo: 3).");
+        // Se tiver 5 buga
+        if (total >= 5) {
+            throw new RuntimeException("Limite de interesses atingido (máximo: 5)");
         }
     }
 

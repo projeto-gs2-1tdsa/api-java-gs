@@ -1,9 +1,7 @@
 package br.com.fiap;
 
 import br.com.fiap.beans.Interesse;
-import br.com.fiap.beans.Usuario;
 import br.com.fiap.bo.InteresseBO;
-import br.com.fiap.bo.UsuarioBO;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.*;
 import jakarta.ws.rs.ext.Provider;
